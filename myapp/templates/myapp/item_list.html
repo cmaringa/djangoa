@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Portfolio View</title>
+    {% load static %}
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/jquery.dataTables.css' %}">
+    <!-- Custom CSS for left-aligned headers -->
+    <style>
+        th {
+            text-align: left;
+        }
+    </style>
+    <!-- jQuery -->
+    <script src="{% static 'myapp/js/jquery-3.5.1.min.js' %}"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="{% static 'myapp/js/jquery.dataTables.js' %}"></script>
+    <script>
+        $(document).ready( function () {
+            $('#itemTable').DataTable({
+                "paging": false,  // Disable pagination
+                "searching": true,  // Enable search functionality
+                "ordering": true,  // Enable column sorting
+                "info": false  // Disable table information display
+            });
+        } );
+    </script>
+</head>
+<body>
+    <h1>Portfolio View</h1>
+    <form method="GET" action=".">
+        {{ form.as_p }}
+        <button type="submit">Filter</button>
+    </form>
+    <table id="itemTable" class="display">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Index Symbol</th>
+                <th>Instrument Name</th>
+                <th>Weight</th>
+                <th>Price</th>
+                <th>ISIN</th>
+                <th>Market Cap</th>
+                <th>Shares</th>
+                <th>Free Float</th>
+                <th>Capfactor</th>
+                <th>Load Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.Date }}</td>
+                <td>{{ item.Index_Symbol }}</td>
+                <td>{{ item.Instrument_Name }}</td>
+                <td>{{ item.Weight|floatformat:2 }}</td>
+                <td>{{ item.Price|floatformat:2 }}</td>
+                <td>{{ item.ISIN }}</td>
+                <td>{{ item.Market_Cap|floatformat:1 }}</td>
+                <td>{{ item.Shares }}</td>
+                <td>{{ item.Free_Float|floatformat:3 }}</td>
+                <td>{{ item.Capfactor|floatformat:2 }}</td>
+                <td>{{ item.load_time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
